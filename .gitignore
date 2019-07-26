@@ -1,3 +1,5 @@
 app.log
 config.toml
 .idea
+/dist/
+.DS_Store
