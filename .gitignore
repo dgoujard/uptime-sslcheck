@@ -4,3 +4,4 @@ config.toml
 /dist/
 .DS_Store
 /uptime-sslcheck
+/.gitconfig

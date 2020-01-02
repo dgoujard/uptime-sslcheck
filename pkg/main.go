@@ -3,6 +3,7 @@ package pkg
 import (
 	"context"
 	"fmt"
+	"github.com/dgoujard/uptimeWorker/services"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
@@ -26,7 +27,7 @@ type siteToCheck struct {
 var (
 	ctx context.Context
 	databaseService *DatabaseService
-	queueService *QueueService
+	queueService *services.QueueService
 )
 
 func init()  {
@@ -61,7 +62,7 @@ func init()  {
 func LaunchCheck(config *TomlConfig) {
 
 	databaseService = CreateDatabaseConnection(&config.Database)
-	queueService = CreateQueueService(&config.Amq)
+	queueService = services.CreateQueueService(&config.Amq)
 
 	hosts := queueHosts()
 

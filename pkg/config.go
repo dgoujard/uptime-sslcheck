@@ -2,25 +2,14 @@ package pkg
 
 import (
 	"github.com/BurntSushi/toml"
+	"github.com/dgoujard/uptimeWorker/config"
 	"log"
 )
 
 type TomlConfig struct {
-	Database DatabaseConfig
-	Amq AmqConfig
+	Database config.DatabaseConfig
+	Amq config.AmqConfig
 }
-type AmqConfig struct {
-	Uri string
-	QueueAlertName string
-}
-type DatabaseConfig struct {
-	Server string
-	Port int
-	User string
-	Password string
-	Database string
-}
-
 
 func GetConfig(configPath string) (configFile *TomlConfig) {
 	if _, err := toml.DecodeFile(configPath, &configFile); err != nil {
