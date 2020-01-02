@@ -4,3 +4,7 @@ port = 27017
 user = ""
 password = ""
 database = ""
+
+[amq]
+uri= "amqp://XXX:XXX@XXXX:5672/"
+queueAlertName = "uptime_alert_queue_dev"

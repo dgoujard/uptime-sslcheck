@@ -3,3 +3,4 @@ config.toml
 .idea
 /dist/
 .DS_Store
+/uptime-sslcheck
