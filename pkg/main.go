@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"context"
 	"fmt"
 	"github.com/dgoujard/uptimeWorker/services"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -25,7 +24,6 @@ type siteToCheck struct {
 }
 
 var (
-	ctx context.Context
 	databaseService *DatabaseService
 	queueService *services.QueueService
 )
@@ -78,8 +76,8 @@ func LaunchCheck(config *TomlConfig) {
 	log.Println("Done")
 }
 
-func queueHosts() <-chan siteToCheck {
-	hosts := make(chan siteToCheck)
+func queueHosts() <-chan services.SiteBdd {
+	hosts := make(chan services.SiteBdd)
 	go func() {
 		defer close(hosts)
 
@@ -94,7 +92,7 @@ func queueHosts() <-chan siteToCheck {
 				log.Fatal(err)
 			}
 			if u.Scheme == "https"{
-				hosts <- siteToCheck{name: site.Name, host: u.Host, id:site.Id}
+				hosts <- site
 			}else {
 				databaseService.MarkSiteNotSSLMonitored(&site.Id)
 			}
@@ -102,15 +100,32 @@ func queueHosts() <-chan siteToCheck {
 	}()
 	return hosts
 }
-func processQueue(sites <-chan siteToCheck,i int) {
+func processQueue(sites <-chan services.SiteBdd,i int) {
 	for site := range sites {
 		//fmt.Println("Wor"+strconv.Itoa(i)+" "+site.name)
-		sslResult, err := checkSSLHost(site.host)
+		u, err := url.Parse(site.Url)
+		sslResult, err := checkSSLHost(u.Host)
 		if err != nil {
 			log.Println("erreur")
 			log.Println(err)
 		}
-		databaseService.UpdateSiteSSLStatus(&site.id, sslResult)
+		site.SslAlgo = sslResult.algo
+		site.SslSubject = sslResult.subject
+		site.SslExpireDatetime = int32(sslResult.expireAt)
+		site.SslError = sslResult.error
+		site.SslIssuer = sslResult.issuer
+
+		var isAlertExpireSended = false
+		if sslResult.expiresInHours < 7*24 && site.SslAlertExpireSended == false {
+			isAlertExpireSended = true
+			alert := services.Alerte{
+				Site:  &site,
+				Type:  "sslExpire",
+				Param: nil,
+			}
+			queueService.AddAlertToAmqQueue(&alert,nil)
+		}
+		databaseService.UpdateSiteSSLStatus(&site.Id, sslResult,isAlertExpireSended)
 		log.Println(fmt.Sprintf("%s %v","Worker "+strconv.Itoa(i),sslResult))
 	}
 }

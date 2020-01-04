@@ -23,17 +23,19 @@ func (d *DatabaseService) MarkSiteNotSSLMonitored(id *primitive.ObjectID)  {
 		bson.M{"_id": id},
 		bson.M{"$set": bson.D{
 			{"ssl_monitored", false},
+			{"ssl_alertExpireSended", false},
 		},
 		},
 	)
 }
 
-func (d *DatabaseService) UpdateSiteSSLStatus(id *primitive.ObjectID, sslResult certificate)  {
+func (d *DatabaseService) UpdateSiteSSLStatus(id *primitive.ObjectID, sslResult certificate, alertExpireSended bool)  {
 	d.Client.Database(d.DatabaseName).Collection("sites").FindOneAndUpdate(
 		context.Background(),
 		bson.M{"_id": id},
 		bson.M{"$set": bson.D{
 			{"ssl_monitored", true},
+			{"ssl_alertExpireSended", alertExpireSended},
 			{"ssl_error", sslResult.error},
 			{"ssl_issuer", sslResult.issuer},
 			{"ssl_subject", sslResult.subject},

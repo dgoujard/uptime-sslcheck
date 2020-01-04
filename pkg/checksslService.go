@@ -14,7 +14,8 @@ type certificate struct {
 	algo    string
 	issuer  string
 	expireAt int
-	expireIn string
+	expireInString string
+	expiresInHours int
 	warnAlgo    bool
 	error   string
 	sunset  *sunsetSignatureAlgorithm
@@ -73,11 +74,11 @@ func createHost(name string, cert *x509.Certificate) certificate {
 		algo:    cert.SignatureAlgorithm.String(),
 	}
 	host.expireAt = int(cert.NotAfter.UnixNano() / 1000000000)
-	expiresIn := int64(time.Until(cert.NotAfter).Hours())
-	if expiresIn <= 48 {
-		host.expireIn = fmt.Sprintf("%d hours", expiresIn)
+	host.expiresInHours = int(time.Until(cert.NotAfter).Hours())
+	if host.expiresInHours <= 48 {
+		host.expireInString = fmt.Sprintf("%d hours", host.expiresInHours)
 	} else {
-		host.expireIn = fmt.Sprintf("%d days", expiresIn/24)
+		host.expireInString = fmt.Sprintf("%d days", host.expiresInHours/24)
 	}
 
 	// Check the signature algorithm, ignoring the root certificate.

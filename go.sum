@@ -37,6 +37,8 @@ github.com/dgoujard/uptimeWorker v0.0.0-20191225120318-92231b921647 h1:9oY+R0LQL
 github.com/dgoujard/uptimeWorker v0.0.0-20191225120318-92231b921647/go.mod h1:yU/2nKflARh4HNY+qJs0pTQ/py7hHymDoKof6Ije3sQ=
 github.com/dgoujard/uptimeWorker v0.0.0-20200102162144-9296c594538c h1:0vUON8q/zdTTOLOgWPL6GM50ElJIwHW5GrxEiFy5rSQ=
 github.com/dgoujard/uptimeWorker v0.0.0-20200102162144-9296c594538c/go.mod h1:yU/2nKflARh4HNY+qJs0pTQ/py7hHymDoKof6Ije3sQ=
+github.com/dgoujard/uptimeWorker v0.0.0-20200102175008-b5adfcf410c0 h1:yW52Cj/Ta5VfRDGbbaTBjrHRTMO3ckY51gT8N2XteDY=
+github.com/dgoujard/uptimeWorker v0.0.0-20200102175008-b5adfcf410c0/go.mod h1:yU/2nKflARh4HNY+qJs0pTQ/py7hHymDoKof6Ije3sQ=
 github.com/emirpasic/gods v1.9.0/go.mod h1:YfzfFFoVP/catgzJb4IKIqXjX78Ha8FMSDh3ymbK86o=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:xEzjJPgXI435gkrCt3MPfRiAkVrwSbHsst4LCFVfpJc=

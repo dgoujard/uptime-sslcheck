@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/aws/aws-sdk-go v1.26.8 // indirect
-	github.com/dgoujard/uptimeWorker v0.0.0-20200102162144-9296c594538c
+	github.com/dgoujard/uptimeWorker v0.0.0-20200102175008-b5adfcf410c0
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/streadway/amqp v0.0.0-20190827072141-edfb9018d271
